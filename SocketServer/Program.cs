@@ -19,9 +19,9 @@ while (true)
     {
         var clientSocket = listener.Accept();
 
-        //var connectionThread = new Thread(() => handleClient(clientSocket));
-        handleClient(clientSocket);
-        //connectionThread.Start();
+        var connectionThread = new Thread(() => handleClient(clientSocket));
+        
+        connectionThread.Start();
 
     });
     acceptThread.Start();
