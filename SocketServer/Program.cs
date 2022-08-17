@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using System.Text;
 
 var connections = new Dictionary<int, Socket>();
-var ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 3003);
+var ipPoint = new IPEndPoint(IPAddress.Parse("5.63.157.232"), 3003);
 var listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 listener.Bind(ipPoint);
