@@ -11,3 +11,18 @@ Console.Write("Введите сообщение:");
 var message = Console.ReadLine();
 var data = Encoding.Unicode.GetBytes(message);
 socket.Send(data);
+
+while (true)
+{
+    data = new byte[256]; // буфер для ответа
+    StringBuilder builder = new StringBuilder();
+    int bytes = 0; // количество полученных байт
+
+    do
+    {
+        bytes = socket.Receive(data, data.Length, 0);
+        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+    }
+    while (socket.Available > 0);
+    Console.WriteLine("ответ сервера: " + builder.ToString());
+}

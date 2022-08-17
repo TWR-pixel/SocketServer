@@ -11,24 +11,46 @@ listener.Listen(1000);
 
 Console.WriteLine("Start...");
 
-while (true)
-{
-    
-
-    var acceptThread = new Thread( () =>
+var acceptThread = new Thread(() =>
+{ // while true
+    while (true)
     {
         var clientSocket = listener.Accept();
 
         var connectionThread = new Thread(() => handleClient(clientSocket));
-        
+
         connectionThread.Start();
+    }
+});
 
-    });
-    acceptThread.Start();
+acceptThread.Start();
 
+while (true)
+{
     // acceptAsync new Thread
     var res = Console.ReadLine();
-    Console.WriteLine(res);
+
+    if (res == "connected-machines")
+        foreach(var conn in connections)
+            Console.WriteLine($"{conn.Key}|{conn.Value}"); // Id|Socket
+
+    if (res == "send-msg")
+    {
+        Console.Write("Enter id: ");
+
+        var input = Console.ReadLine();
+        var client = default(Socket);
+
+        connections.TryGetValue(Convert.ToInt32(input), out client);
+        Console.Write("Enter message: ");
+
+        var message = Console.ReadLine();
+        var data = new byte[256];
+
+        data = Encoding.Unicode.GetBytes(message);
+
+        client.Send(data);
+    }
 }
 
 void handleClient(Socket socket)
